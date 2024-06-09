@@ -18,7 +18,7 @@ import (
 
 func main() {
 	// Prepare the IP to connect to
-	addr := &net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: 4444}
+	addr := &net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: 8080}
 
 	// Generate a certificate and private key to secure the connection
 	certificate, genErr := selfsign.GenerateSelfSigned()
@@ -30,9 +30,9 @@ func main() {
 
 	// Prepare the configuration of the DTLS connection
 	config := &dtls.Config{
-		Certificates:         []tls.Certificate{certificate},
-		InsecureSkipVerify:   true,
-		ExtendedMasterSecret: dtls.RequireExtendedMasterSecret,
+		Certificates:       []tls.Certificate{certificate},
+		InsecureSkipVerify: true,
+		//ExtendedMasterSecret: dtls.RequireExtendedMasterSecret,
 	}
 
 	// Connect to a DTLS server

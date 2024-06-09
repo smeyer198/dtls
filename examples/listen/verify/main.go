@@ -18,7 +18,7 @@ import (
 
 func main() {
 	// Prepare the IP to connect to
-	addr := &net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: 4444}
+	addr := &net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: 8090}
 
 	// Create parent context to cleanup handshaking connections on exit.
 	ctx, cancel := context.WithCancel(context.Background())
@@ -41,10 +41,8 @@ func main() {
 
 	// Prepare the configuration of the DTLS connection
 	config := &dtls.Config{
-		Certificates:         []tls.Certificate{certificate},
-		ExtendedMasterSecret: dtls.RequireExtendedMasterSecret,
-		ClientAuth:           dtls.RequireAndVerifyClientCert,
-		ClientCAs:            certPool,
+		Certificates: []tls.Certificate{certificate},
+		ClientAuth:   dtls.RequireAnyClientCert,
 		// Create timeout context for accepted connection.
 		ConnectContextMaker: func() (context.Context, func()) {
 			return context.WithTimeout(ctx, 30*time.Second)
